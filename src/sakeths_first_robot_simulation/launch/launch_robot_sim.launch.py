@@ -61,6 +61,15 @@ def generate_launch_description():
         ]
     )
 
+    # RViz2 Node
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+    )
+
+
     # Launch them all!
     return LaunchDescription([
         robot_state_publisher_launch,
@@ -68,4 +77,5 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         ros_gz_bridge,
+        rviz_node
     ])
