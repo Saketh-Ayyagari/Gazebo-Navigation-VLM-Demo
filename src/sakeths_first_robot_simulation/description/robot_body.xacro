@@ -1,0 +1,165 @@
+<?xml version = "1.0"?>
+<robot xmlns:xacro = "http://www.ros.org/wiki/xacro"  name = "robot_body">
+    
+    <xacro:include filename = "inertial_macros.xacro" />
+    <xacro:include filename = "robot_gazebo_parameters.xacro" />
+    <xacro:include filename = "CONSTANTS.xacro" />
+
+    <!-- NOTE: To ensure this simulation works in Gazebo, ALL components must include inertial tags! -->
+
+    <!-- Defining colors-->
+    <material name = "white">
+        <color rgba = "1 1 1 1"></color>
+    </material>
+
+    <material name = "orange">
+        <color rgba = "1 0.3 0.1 1"></color>
+    </material>
+
+    <material name = "blue">
+        <color rgba = "0.2 0.2 1 1"></color>
+    </material>
+
+    <material name = "black">
+        <color rgba = " 0 0 0 1"></color>
+    </material>
+
+    <!-- BASE LINK (default link. Consider this like a starting link for each robot)-->
+    <link name = "base_link">
+    </link>
+
+    <!-- CHASSIS JOINT (connects base_link to the chassis_link) -->
+    <joint name = "chassis_joint" type = "fixed">
+        <parent link = "base_link" />
+        <child link = "chassis_link" />
+        <origin xyz = "-0.1 0 0" /> <!-- x = front, y = right, z = up-->
+    </joint>
+
+    <!-- CHASSIS LINK (defines the default position for the chassis-->
+    <link name = "chassis_link">
+        <visual>
+             <origin xyz = "0.15 0 0.15" /> <!-- Specifies the originating point for models RELATIVE TO THE LINK-->
+            <geometry>
+                <box size = "${chassis_edge} ${chassis_edge} ${chassis_edge}" />
+            </geometry>
+            <material name = "white" />
+        </visual>
+        <!-- Collision aspects: exact same as the "visual" components, just without any material. -->
+         <collision>
+             <origin xyz = "0.15 0 0.15" /> <!-- Specifies the originating point for models RELATIVE TO THE LINK-->
+            <geometry>
+                <box size = "${chassis_edge} ${chassis_edge} ${chassis_edge}" />
+            </geometry>
+        </collision>
+        <!-- Inertial tags -->
+        <xacro:inertial_box mass="0.5" x="${chassis_edge}" y="${chassis_edge}" z="${chassis_edge}">
+            <origin xyz="0.15 0 0.15" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- LEFT WHEEL (Link and joint)-->
+    <link name = "left_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius = "0.06" length = "0.04" />
+            </geometry>
+            <material name = "blue" />
+        </visual>
+
+        <collision>
+            <geometry>
+                <cylinder radius = "${wheel_radius}" length = "0.04" />
+            </geometry>
+        </collision>
+        <!-- Inertial tag-->
+        <xacro:inertial_cylinder mass = "0.1" length = "0.04" radius = "${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name = "left_wheel_joint" type = "continuous"> <!-- Continous joint because the wheel can rotate continously (hence, the name)-->
+        <parent link = "base_link" />
+        <child link = "left_wheel_link" />
+        <origin xyz = "0 -0.15 0" rpy = "-${pi/2} 0 ${pi}"/>
+        <axis xyz = "0 0 1" />
+        <!-- This considers aspects of a joint like torque (effort) and velocity. It is stored in a URDF and NOT a Gazebo tag. -->
+        <limit effort = "0.05" velocity = "10.0" />
+    </joint>
+
+    <!-- RIGHT WHEEL (Link and joint)-->
+    <link name = "right_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius = "${wheel_radius}" length = "0.04" /> 
+            </geometry>
+            <material name = "blue" />
+        </visual>
+
+        <collision>
+            <geometry>
+                <cylinder radius = "${wheel_radius}" length = "0.04" /> 
+            </geometry>
+        </collision>
+        <!-- Inertial tag-->
+        <xacro:inertial_cylinder mass = "0.1" length = "0.04" radius = "${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name = "right_wheel_joint" type = "continuous">
+        <parent link = "base_link" />
+        <child link = "right_wheel_link" />
+        <origin xyz = "0 0.15 0" rpy = "${pi/2} 0 ${pi}"/>
+        <axis xyz = "0 0 -1" />
+        <!-- This considers aspects of a joint like torque (effort) and velocity. It is stored in a URDF and NOT a Gazebo tag. -->
+        <limit effort = "0.05" velocity = "10.0" />
+    </joint>
+
+    <!-- CASTER WHEEL (Link and Joint)-->
+    <link name = "caster_wheel_link">
+        <visual>
+            <geometry>
+                <sphere radius = "0.06" />
+            </geometry>
+            <material name = "black" />
+        </visual>
+
+        <collision>
+            <geometry>
+                <sphere radius = "0.06" />
+            </geometry>
+        </collision>
+        <!-- Inertial tag-->
+        <xacro:inertial_sphere mass="0.1" radius = "0.06">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_sphere>
+     </link>
+
+    <joint name = "caster_wheel_joint" type = "fixed"> <!-- frictionless instead of rolling around everywhere-->
+        <parent link = "chassis_link" />
+        <child link = "caster_wheel_link" />
+        <origin xyz = "0.24 0 0"/>
+    </joint>
+    
+    <!-- Added a face/visor with two eyes. -->
+    <link name = "visor">
+        <visual>
+            <geometry>
+                <box size = "0.05 0.3 0.15" />
+            </geometry>
+            <material name = "black" />
+        </visual>
+        <collision>
+            <geometry>
+                <box size = "0.05 0.3 0.15" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name = "chassis_link_to_face" type = "fixed">
+        <parent link = "chassis_link" />
+        <child link = "visor" />
+        <origin xyz = "${chassis_edge} 0 0.15" rpy = "0 0 ${pi}"/>
+    </joint>
+
+</robot>
