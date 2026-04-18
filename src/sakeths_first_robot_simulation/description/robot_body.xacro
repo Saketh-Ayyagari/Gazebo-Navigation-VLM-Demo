@@ -57,8 +57,8 @@
         </xacro:inertial_box>
     </link>
 
-    <!-- LEFT WHEEL (Link and joint)-->
-    <link name = "left_wheel_link">
+    <!-- RIGHT WHEEL (Link and joint)-->
+    <link name = "right_wheel_link">
         <visual>
             <geometry>
                 <cylinder radius = "0.06" length = "0.04" />
@@ -77,17 +77,17 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <joint name = "left_wheel_joint" type = "continuous"> <!-- Continous joint because the wheel can rotate continously (hence, the name)-->
+    <joint name = "right_wheel_joint" type = "continuous"> <!-- Continous joint because the wheel can rotate continously (hence, the name)-->
         <parent link = "base_link" />
-        <child link = "left_wheel_link" />
-        <origin xyz = "0 -0.15 0" rpy = "-${pi/2} 0 0"/>
-        <axis xyz = "0 0 1" />
+        <child link = "right_wheel_link" />
+        <origin xyz = "0 -0.15 0" rpy = "-${pi/2} 0 ${pi}"/>
+        <axis xyz = "0 0 -1" />
         <!-- This considers aspects of a joint like torque (effort) and velocity. It is stored in a URDF and NOT a Gazebo tag. -->
         <limit effort = "0.05" velocity = "10.0" />
     </joint>
 
-    <!-- RIGHT WHEEL (Link and joint)-->
-    <link name = "right_wheel_link">
+    <!-- LEFT WHEEL (Link and joint)-->
+    <link name = "left_wheel_link">
         <visual>
             <geometry>
                 <cylinder radius = "${wheel_radius}" length = "0.04" /> 
@@ -106,9 +106,9 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <joint name = "right_wheel_joint" type = "continuous">
+    <joint name = "left_wheel_joint" type = "continuous">
         <parent link = "base_link" />
-        <child link = "right_wheel_link" />
+        <child link = "left_wheel_link" />
         <origin xyz = "0 0.15 0" rpy = "${pi/2} 0 ${pi}"/>
         <axis xyz = "0 0 1" />
         <!-- This considers aspects of a joint like torque (effort) and velocity. It is stored in a URDF and NOT a Gazebo tag. -->
