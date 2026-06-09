@@ -3,6 +3,5 @@
     <!-- This is the main robot file. It contains all aspects of the robot (including the chassis, gazebo parameters, and control parameters). -->
     <!-- Including all parts of the robot in one xacro file-->
     <xacro:include filename = "robot_body.xacro" />
-    <xacro:include filename = "gazebo_control.xacro" />
-
+    <xacro:include filename = "gazebo_plugins.xacro" />
 </robot>

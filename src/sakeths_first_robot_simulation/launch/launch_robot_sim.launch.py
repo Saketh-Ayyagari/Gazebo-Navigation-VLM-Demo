@@ -29,7 +29,7 @@ def generate_launch_description():
 
     world_arg = DeclareLaunchArgument(
         'world',
-        default_value="empty.sdf",
+        default_value="camera_sensor.sdf",
         description='World to load'
         )
 
@@ -69,6 +69,13 @@ def generate_launch_description():
         output='screen',
     )
 
+    # ROS-Gazebo bridge for image topics (if you have a camera on your robot and want to visualize it in RViz)
+    ros_gazebo_image_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        arguments=["/camera/image_raw"]
+    )
+
 
     # Launch them all!
     return LaunchDescription([
@@ -77,5 +84,6 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         ros_gz_bridge,
-        rviz_node
+        rviz_node,
+        ros_gazebo_image_bridge,
     ])
