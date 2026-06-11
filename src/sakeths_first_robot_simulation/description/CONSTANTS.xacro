@@ -5,6 +5,6 @@
     <xacro:property name = "chassis_edge" value = "0.3" />
     <xacro:property name = "wheel_radius" value = "0.06" />
     <xacro:property name = "wheel_separation" value = "0.3" />
-
+    <xacro:property name = "max_velocity" value = "15.0" /> <!-- DO NOT INCREASE. OTHERWISE, THIS WILL MESS UP SIMULATION PHYSICS.-->
 
 </robot>

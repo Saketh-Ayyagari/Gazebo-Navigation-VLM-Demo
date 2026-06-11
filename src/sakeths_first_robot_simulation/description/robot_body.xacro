@@ -83,7 +83,7 @@
         <origin xyz = "0 -0.15 0" rpy = "-${pi/2} 0 ${pi}"/>
         <axis xyz = "0 0 -1" />
         <!-- This considers aspects of a joint like torque (effort) and velocity. It is stored in a URDF and NOT a Gazebo tag. -->
-        <limit effort = "0.05" velocity = "10.0" />
+        <limit effort = "0.05" velocity = "${max_velocity}" />
     </joint>
 
     <!-- LEFT WHEEL (Link and joint)-->
@@ -112,7 +112,7 @@
         <origin xyz = "0 0.15 0" rpy = "${pi/2} 0 ${pi}"/>
         <axis xyz = "0 0 1" />
         <!-- This considers aspects of a joint like torque (effort) and velocity. It is stored in a URDF and NOT a Gazebo tag. -->
-        <limit effort = "0.05" velocity = "10.0" />
+        <limit effort = "0.05" velocity = "${max_velocity}" />
     </joint>
 
     <!-- CASTER WHEEL (Link and Joint)-->
