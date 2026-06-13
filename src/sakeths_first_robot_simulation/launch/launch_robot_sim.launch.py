@@ -24,12 +24,19 @@ def generate_launch_description():
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
                 )]), launch_arguments={'use_sim_time': 'true'}.items()
     )
+
+    # Loads world, which contains plugins to run sensors and other functionalities. 
+    default_world = os.path.join(
+        get_package_share_directory(package_name),
+        'worlds',
+        'default.sdf'
+    )    
     
     world = LaunchConfiguration('world')
 
     world_arg = DeclareLaunchArgument(
         'world',
-        default_value="camera_sensor.sdf",
+        default_value=default_world,
         description='World to load'
         )
 
@@ -45,7 +52,8 @@ def generate_launch_description():
                         arguments=['-topic', 'robot_description',
                                    '-name', 'sakeths_first_robot',
                                    '-z', '0.1'],
-                        output='screen')
+                        output='screen'
+                    )
     
     # launching joint_state_publisher node from joint_state_publisher
 
