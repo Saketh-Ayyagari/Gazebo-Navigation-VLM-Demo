@@ -51,10 +51,6 @@
             <topic>camera/image_raw</topic>
             <gz_frame_id>camera_link</gz_frame_id>
         </sensor>
-        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
-            <render_engine>ogre2</render_engine>
-        </plugin>
     </gazebo>
-    
 
 </robot>
