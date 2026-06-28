@@ -31,7 +31,7 @@
     
     <!-- GAZEBO CAMERA REFERENCE/PLUGIN. -->
     <gazebo reference="camera_link">
-        <sensor name="camera" type="camera">
+        <sensor name="camera" type="rgbd_camera">
             <pose> 0 0 0 0 0 0 </pose>
             <visualize>true</visualize>
             <update_rate>10</update_rate>
