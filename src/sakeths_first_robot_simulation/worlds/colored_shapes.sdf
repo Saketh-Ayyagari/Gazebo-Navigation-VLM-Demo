@@ -105,9 +105,9 @@
             </box>
           </geometry>
           <material>
-            <ambient>0.3 0.3 0.3 1</ambient>
-            <diffuse>0.7 0.7 0.7 1</diffuse>
-            <specular>1 1 1 1</specular>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
           </material>
         </visual>
         <pose>0 0 0 0 -0 0</pose>
@@ -117,7 +117,7 @@
       <self_collide>false</self_collide>
     </model>
     <model name='cylinder'>
-      <pose>2.05868 -2.22125 0.499999 -0 0 0</pose>
+      <pose>2.05868 -2.22125 0.499999 -0 0 -0</pose>
       <link name='cylinder_link'>
         <inertial>
           <inertia>
@@ -154,9 +154,9 @@
             </cylinder>
           </geometry>
           <material>
-            <ambient>0.3 0.3 0.3 1</ambient>
-            <diffuse>0.7 0.7 0.7 1</diffuse>
-            <specular>1 1 1 1</specular>
+            <ambient>0 1 0 1</ambient>
+            <diffuse>0 1 0 1</diffuse>
+            <specular>0 1 0 1</specular>
           </material>
         </visual>
         <pose>0 0 0 0 -0 0</pose>
@@ -201,9 +201,9 @@
             </sphere>
           </geometry>
           <material>
-            <ambient>0.3 0.3 0.3 1</ambient>
-            <diffuse>0.7 0.7 0.7 1</diffuse>
-            <specular>1 1 1 1</specular>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+            <specular>0 0 1 1</specular>
           </material>
         </visual>
         <pose>0 0 0 0 -0 0</pose>
