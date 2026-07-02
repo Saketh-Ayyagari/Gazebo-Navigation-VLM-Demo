@@ -83,7 +83,7 @@ class VisualOdometry:
         dst_pts = np.float32([keypoints_2[m.trainIdx].pt for m in matches])
 
         # Use the calibrated camera intrinsics supplied by the caller.
-        E, mask = cv.findEssentialMat(src_pts, dst_pts, K, cv.RANSAC)
+        E, mask = cv.findEssentialMat(src_pts, dst_pts, self.K, cv.RANSAC)
         if E is None or mask is None:
             return None, None
 
@@ -94,7 +94,7 @@ class VisualOdometry:
         # if len(src_pts) < 5:
         #     return None, None
 
-        _, R, t, _ = cv.recoverPose(E, src_pts, dst_pts, K, mask)
+        _, R, t, _ = cv.recoverPose(E, src_pts, dst_pts, self.K, mask)
         if R is None or t is None:
             return None, None
 
