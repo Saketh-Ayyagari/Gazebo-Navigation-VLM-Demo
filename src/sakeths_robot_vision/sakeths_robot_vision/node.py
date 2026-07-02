@@ -48,6 +48,10 @@ class ImageSubscriber(Node):
         # update pose estimate using p_t+1 = R*p_t + t
         self.pos = np.matmul(R, self.pos) + t.ravel()
 
+        self.get_logger().info(f"Updated Position Estimate: {self.pos}")
+        self.get_logger().info(f"======================================")
+        
+        
         self.prev_frame = current_frame
     
 def main(args=None):
