@@ -95,7 +95,5 @@ class VisualOdometry:
         #     return None, None
 
         _, R, t, _ = cv.recoverPose(E, src_pts, dst_pts, self.K, mask)
-        if R is None or t is None:
-            return None, None
 
         return R, t
