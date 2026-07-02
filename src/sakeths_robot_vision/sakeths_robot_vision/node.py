@@ -37,6 +37,7 @@ class ImageSubscriber(Node):
         # As pointed in comments below modify the following to use bgr encoding
         # current_frame = self.br.imgmsg_to_cv2(data)
         current_frame = self.br.imgmsg_to_cv2(data, desired_encoding='bgr8')
+        self.prev_frame = current_frame if self.prev_frame is None else self.prev_frame
         cv_utils.show_image(current_frame)
 
         R, t = self.vo.get_pose_estimate(self.prev_frame, current_frame)
