@@ -35,14 +35,14 @@
 
 # Main camera info (main camera data handled by dedicated image bridge, so no need to bridge over "image" topic)
 - ros_topic_name: "camera/camera_info"
-  gz_topic_name: "camera/image_raw/camera_info"
+  gz_topic_name: "camera/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
   direction: GZ_TO_ROS
 
 # Point Cloud topics
 - ros_topic_name: "camera/points"
-  gz_topic_name: "camera/image_raw/points"
+  gz_topic_name: "camera/points"
   ros_type_name: "sensor_msgs/msg/PointCloud2"
   gz_type_name: "gz.msgs.PointCloudPacked"
   direction: GZ_TO_ROS
