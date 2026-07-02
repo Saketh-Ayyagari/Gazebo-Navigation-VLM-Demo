@@ -41,14 +41,13 @@ class ImageSubscriber(Node):
         cv_utils.show_image(current_frame)
 
         R, t = self.vo.get_pose_estimate(self.prev_frame, current_frame)
-        # only update pose if we can find a valid rotation and translation between frames
-        if R and t:
-            # now use R and t to update robot's pose estimate
-            self.get_logger().info(f"Estimated Rotation:\n{R}\nEstimated Translation:\n{t}")
 
-            # update pose estimate using p_t+1 = R*p_t + t
-            self.pos = np.matmul(R, self.pos) + t.ravel()
-    
+        # now use R and t to update robot's pose estimate
+        self.get_logger().info(f"Estimated Rotation:\n{R}\nEstimated Translation:\n{t}")
+
+        # update pose estimate using p_t+1 = R*p_t + t
+        self.pos = np.matmul(R, self.pos) + t.ravel()
+
         self.prev_frame = current_frame
     
 def main(args=None):
