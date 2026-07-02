@@ -69,6 +69,16 @@ class VisualOdometry:
         matches = self.matcher.match(descriptors_1, descriptors_2)
         matches = sorted(matches, key = lambda x : x.distance) # sorts matches based on distance (farther ones may match to wrong points)
 
+        # showing matched features across camera frames
+        if self.show_matched_features:
+            output_image = cv.drawMatches(
+                img0, keypoints_1,
+                img1, keypoints_2,
+                matches[:50], None, flags=2
+            ) # shows 50 best features.
+            cv.imshow("Matched Features", output_image)
+            cv.waitKey(1)
+
         src_pts = np.float32([keypoints_1[m.queryIdx].pt for m in matches])
         dst_pts = np.float32([keypoints_2[m.trainIdx].pt for m in matches])
 
