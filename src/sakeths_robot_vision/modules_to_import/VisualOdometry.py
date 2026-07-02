@@ -83,7 +83,6 @@ class VisualOdometry:
         dst_pts = np.float32([keypoints_2[m.trainIdx].pt for m in matches])
 
         # Use the calibrated camera intrinsics supplied by the caller.
-        K = np.asarray(self.K, dtype=np.float64).reshape(3, 3)
         E, mask = cv.findEssentialMat(src_pts, dst_pts, K, cv.RANSAC)
         if E is None or mask is None:
             return None, None
