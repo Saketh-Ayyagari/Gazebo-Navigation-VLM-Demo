@@ -165,21 +165,19 @@
     <!-- Camera Link -->
     <link name = "camera_link">
         <visual>
-            <origin xyz = "0.02 0 0" /> <!-- Specifies the originating point for models RELATIVE TO THE LINK-->
             <geometry>
                 <box size = "0.05 0.05 0.05" />
             </geometry>
             <material name = "orange" />
         </visual>
         <collision>
-            <origin xyz = "0.025 0 0" /> <!-- Specifies the originating point for models RELATIVE TO THE LINK-->
             <geometry>
                 <box size = "0.05 0.05 0.05" />
             </geometry>
         </collision>
         <!-- Inertial tag-->
         <xacro:inertial_box mass="0.1" x="0.05" y="0.05" z="0.05">
-            <origin xyz="0.025 0 0" rpy="0 0 0"/>
+            <origin xyz="0.05 0.05 0.05" rpy="0 0 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -187,8 +185,7 @@
     <joint name = "camera_joint" type = "fixed">
         <parent link = "visor" />
         <child link = "camera_link" />
-        <origin xyz = "0 0 0" rpy = "0 0 ${pi}"/>
+        <origin xyz = "-0.03 0 0" rpy = "0 0 ${pi}"/>
     </joint>
-    
 
 </robot>

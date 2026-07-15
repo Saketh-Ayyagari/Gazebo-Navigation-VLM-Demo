@@ -33,16 +33,30 @@
   gz_type_name: "gz.msgs.Model"
   direction: GZ_TO_ROS
 
-# Main camera info (main camera data handled by dedicated image bridge, so no need to bridge over "image" topic)
+# Main camera info (main camera data handled by dedicated image bridge, so no need to bridge over "image" topic -- only the case if dealing with rgb camera)
 - ros_topic_name: "camera/camera_info"
-  gz_topic_name: "camera/camera_info"
+  gz_topic_name: "camera/image_raw/camera_info"
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
   direction: GZ_TO_ROS
 
-# Point Cloud topics
+# Main camera color image (required for RGBD camera)
+- ros_topic_name: "camera/image_raw"
+  gz_topic_name: "camera/image_raw/image"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+# Depth camera frame (required for RGBD camera)
+- ros_topic_name: "camera/depth_image"
+  gz_topic_name: "camera/image_raw/depth_image"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+# Point Cloud topics (required for RGBD camera)
 - ros_topic_name: "camera/points"
-  gz_topic_name: "camera/points"
+  gz_topic_name: "camera/image_raw/points"
   ros_type_name: "sensor_msgs/msg/PointCloud2"
   gz_type_name: "gz.msgs.PointCloudPacked"
   direction: GZ_TO_ROS
