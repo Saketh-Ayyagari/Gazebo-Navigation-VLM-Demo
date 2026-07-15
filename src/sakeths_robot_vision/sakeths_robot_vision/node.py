@@ -20,7 +20,7 @@ class ImageSubscriber(Node):
         # self.get_logger().info('Receiving video frame')
         # As pointed in comments below modify the following to use bgr encoding
         # current_frame = self.br.imgmsg_to_cv2(data)
-        current_frame = self.br.imgmsg_to_cv2(data, desired_encoding="passthrough")
+        current_frame = self.br.imgmsg_to_cv2(data, desired_encoding="passthrough") # use "passthrough" to get the raw depth image, and "rgb8" for color images
         cv_utils.show_image(current_frame)
 
     
