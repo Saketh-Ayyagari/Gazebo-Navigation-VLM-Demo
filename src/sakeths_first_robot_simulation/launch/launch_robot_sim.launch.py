@@ -81,7 +81,7 @@ def generate_launch_description():
     ros_gazebo_image_bridge = Node(
         package="ros_gz_image",
         executable="image_bridge",
-        arguments=["/camera/image_raw/image"]
+        arguments=["/camera/image_raw"]
     )
 
 

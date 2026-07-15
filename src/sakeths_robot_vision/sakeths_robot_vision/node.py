@@ -11,7 +11,7 @@ class ImageSubscriber(Node):
         super().__init__('image_subscriber')
         self.subscription = self.create_subscription(
             Image,
-            '/camera/image_raw/image',
+            '/camera/depth_image',
             self.listener_callback,
             10)
         self.br = CvBridge()
@@ -20,7 +20,7 @@ class ImageSubscriber(Node):
         # self.get_logger().info('Receiving video frame')
         # As pointed in comments below modify the following to use bgr encoding
         # current_frame = self.br.imgmsg_to_cv2(data)
-        current_frame = self.br.imgmsg_to_cv2(data, desired_encoding='bgr8')
+        current_frame = self.br.imgmsg_to_cv2(data, desired_encoding="passthrough")
         cv_utils.show_image(current_frame)
 
     
