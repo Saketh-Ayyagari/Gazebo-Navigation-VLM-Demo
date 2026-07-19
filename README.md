@@ -50,43 +50,6 @@ More specifically:
 
 ---
 
-# System Architecture
-
-```
-                Unknown Environment
-                        │
-                        ▼
-                RGB-D Camera Stream
-                        │
-                        ▼
-                 RTAB-Map (Visual SLAM)
-                        │
-        ┌───────────────┴────────────────┐
-        │                                │
-        ▼                                ▼
- Occupancy Grid                  Robot Pose
- Point Cloud
- Map
-        │
-        ▼
- Semantic Scene Representation
-        │
-        ▼
- Vision-Language Model
-        │
-        ▼
- Goal Grounding
-(Language → Physical Location)
-        │
-        ▼
- Navigation Planner (Nav2)
-        │
-        ▼
- Autonomous Robot Motion
-```
-
----
-
 # Project Objectives
 
 ## Phase 1 — Mapping & Localization
