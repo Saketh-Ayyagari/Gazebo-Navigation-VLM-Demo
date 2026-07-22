@@ -16,7 +16,7 @@ def generate_launch_description():
         ('rgb/image', '/camera/image_raw'),
         ('rgb/camera_info', '/camera/camera_info'),
         ('depth/image', '/camera/depth_image'),
-        ('odom', '/odom'),
+        ('odom', '/wheel_odom'),
     ]
 
     return LaunchDescription([

@@ -13,7 +13,7 @@
   direction: ROS_TO_GZ
 
 # Odometry published by DiffDrive plugin
-- ros_topic_name: "odom"
+- ros_topic_name: "wheel_odom"
   gz_topic_name: "odom"
   ros_type_name: "nav_msgs/msg/Odometry"
   gz_type_name: "gz.msgs.Odometry"
