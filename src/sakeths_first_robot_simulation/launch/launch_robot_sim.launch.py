@@ -29,7 +29,7 @@ def generate_launch_description():
     default_world = os.path.join(
         get_package_share_directory(package_name),
         'worlds',
-        'living_room.sdf' # change this if you want to change the world as long as it has necessary gazebo plugins imported. 
+        'tugbot_depot.sdf' # change this if you want to change the world as long as it has necessary gazebo plugins imported. 
     )    
     
     world = LaunchConfiguration('world')
