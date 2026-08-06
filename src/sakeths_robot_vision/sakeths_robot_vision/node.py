@@ -4,6 +4,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
 import cv2 as cv
+from ultralytics import YOLO
 import modules_to_import.opencv_utils as cv_utils
 
 class ImageSubscriber(Node):
@@ -15,13 +16,15 @@ class ImageSubscriber(Node):
             self.listener_callback,
             10)
         self.br = CvBridge()
-    
+        self.model = YOLO('yolov8n.pt')  # Load a pre-trained YOLOv8 model
+
     def listener_callback(self, data):
         # self.get_logger().info('Receiving video frame')
         # As pointed in comments below modify the following to use bgr encoding
         # current_frame = self.br.imgmsg_to_cv2(data)
         current_frame = self.br.imgmsg_to_cv2(data, desired_encoding="passthrough") # use "passthrough" to get the raw depth image, and "rgb8" for color images
-        cv_utils.show_image(current_frame)
+        results = self.model(current_frame)
+        cv_utils.show_image(results[0].plot())
 
     
 def main(args=None):
