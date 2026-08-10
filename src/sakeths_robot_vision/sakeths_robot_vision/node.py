@@ -12,7 +12,7 @@ class ImageSubscriber(Node):
         super().__init__('image_subscriber')
         self.subscription = self.create_subscription(
             Image,
-            '/camera/depth_image',
+            '/camera/image_raw',
             self.listener_callback,
             10)
         self.br = CvBridge()
@@ -25,7 +25,6 @@ class ImageSubscriber(Node):
         current_frame = self.br.imgmsg_to_cv2(data, desired_encoding="passthrough") # use "passthrough" to get the raw depth image, and "rgb8" for color images
         results = self.model(current_frame)
         cv_utils.show_image(results[0].plot())
-
     
 def main(args=None):
     rclpy.init(args=args)
