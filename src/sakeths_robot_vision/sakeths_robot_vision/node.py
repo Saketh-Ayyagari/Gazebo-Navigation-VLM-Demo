@@ -24,6 +24,7 @@ class ImageSubscriber(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
     def timer_callback(self, msg):
+        self.get_logger().info('Receiving video frame')
         self.camera_callback(msg)
     '''
     Runs YOLO model on specific frame and displays results. Converts ROS2 image message to OpenCV format 
@@ -38,7 +39,7 @@ class ImageSubscriber(Node):
         # self.get_logger().info('Receiving video frame')
         # As pointed in comments below modify the following to use bgr encoding
         # current_frame = self.br.imgmsg_to_cv2(data, desired_encoding='bgr8')
-        
+
         results = self.model(current_frame)
         cv_utils.show_image(results[0].plot())
     
