@@ -1,3 +1,5 @@
+import os
+from glob import glob
 from setuptools import find_packages, setup
 
 package_name = 'sakeths_robot_vision'
@@ -5,11 +7,12 @@ package_name = 'sakeths_robot_vision'
 setup(
     name=package_name,
     version='0.0.0',
-    packages=find_packages(exclude=['test'], include=['modules_to_import']), # "include" MUST contain this folder if custom modules want to be imported.  
+    packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        # (os.path.join('share', package_name, 'launch'), glob('launch/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -24,7 +27,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'image_subscriber = sakeths_robot_vision.node:main'
+            'image_subscriber = sakeths_robot_vision.image_subscriber:main'
         ],
     },
 )
