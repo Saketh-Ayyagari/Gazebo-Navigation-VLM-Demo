@@ -15,17 +15,12 @@ class ImageSubscriber(Node):
         self.subscription = self.create_subscription(
             Image,
             '/camera/image_raw',
-            self.timer_callback,
+            self.camera_callback,
             10)
         self.br = CvBridge()
         self.model = YOLO('yolov8n.pt')  # Load a pre-trained YOLOv8 model
         
-        timer_period = 1 / FRAME_RATE # runs this node based on the frame rate (can be customized)
-        self.timer = self.create_timer(timer_period, self.timer_callback)
 
-    def timer_callback(self, msg):
-        self.get_logger().info('Receiving video frame')
-        self.camera_callback(msg)
     '''
     Runs YOLO model on specific frame and displays results. Converts ROS2 image message to OpenCV format 
     using CvBridge, then runs YOLO model on the frame and displays the results using OpenCV.

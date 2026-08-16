@@ -27,7 +27,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'image_subscriber = sakeths_robot_vision.node:main'
+            'image_subscriber = sakeths_robot_vision.image_subscriber:main'
         ],
     },
 )
