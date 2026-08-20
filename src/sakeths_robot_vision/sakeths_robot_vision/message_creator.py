@@ -62,7 +62,8 @@ class MessageCreator(Node):
     If so, it creates a CustomMessage.
     """
     def subscriber_callback(self):
-        # terminates if any message is None, i.e. if any of the three messages have not been received yet
+        # terminates if any message is None, i.e. if any of the three messages have not been received yet.
+        # Ensures that all messages have been received before creating and publishing CustomMessage.
         if self.rgb_message is None or self.depth_message is None or self.odom_message is None:
             return
 
@@ -71,7 +72,6 @@ class MessageCreator(Node):
         custom_msg.depth = self.depth_message
         custom_msg.odom = self.odom_message
 
-        self.get_logger().info('Publishing CustomMessage with RGB, Depth, and Odometry data')
         self.publisher.publish(custom_msg)
 
 def main(args=None):
