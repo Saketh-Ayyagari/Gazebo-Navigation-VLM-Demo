@@ -6,7 +6,7 @@ from cv_bridge import CvBridge
 import cv2 as cv
 from ultralytics import YOLO
 import modules_to_import.opencv_utils as cv_utils
-
+from custom_msgs_and_srvs.msg import CustomMessage
 
 class ImageSubscriber(Node):
     def __init__(self):
@@ -15,12 +15,11 @@ class ImageSubscriber(Node):
         self.model = YOLO('yolov8n.pt')  # Load a pre-trained YOLOv8 model
 
         self.subscription = self.create_subscription(
-            Image,
-            '/camera/depth_image',
+            CustomMessage,
+            '/rgb_d_odom',
             self.camera_callback,
             10)
                 
-
     '''
     Runs pipeline for object detection
 
@@ -41,14 +40,15 @@ class ImageSubscriber(Node):
     Depth image for calculating distances to objects in RGB image.
     Odometry message containing robot's current pose.
     '''
-    def camera_callback(self, img):
-        depth_frame = self.br.imgmsg_to_cv2(img, desired_encoding="passthrough") # use "passthrough" to get the raw depth image, and "rgb8" for color images
-
+    def camera_callback(self, msg: CustomMessage):
+        rgb_frame = self.br.imgmsg_to_cv2(msg.rgb, desired_encoding="rgb8")
+        depth_frame = self.br.imgmsg_to_cv2(msg.depth, desired_encoding="passthrough")
+        odom = msg.odom
         # self.get_logger().info('Receiving video frame')
         # As pointed in comments below modify the following to use bgr encoding
         # current_frame = self.br.imgmsg_to_cv2(data, desired_encoding='bgr8')
 
-        results = self.model(current_frame) # running YOLO model for instance segmentation
+        results = self.model(rgb_frame) # running YOLO model for instance segmentation
         cv_utils.show_image(results[0].plot())
 
         # given bounding box coordinates, calculate center of the bounding box and use it to get the depth value from the depth image.
