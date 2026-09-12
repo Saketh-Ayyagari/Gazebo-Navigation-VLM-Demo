@@ -19,6 +19,7 @@ class ImageSubscriber(Node):
             '/rgb_d_odom',
             self.camera_callback,
             10)
+
                 
     '''
     Runs pipeline for object detection
@@ -44,14 +45,48 @@ class ImageSubscriber(Node):
         rgb_frame = self.br.imgmsg_to_cv2(msg.rgb, desired_encoding="rgb8")
         depth_frame = self.br.imgmsg_to_cv2(msg.depth, desired_encoding="passthrough")
         odom = msg.odom
-        # self.get_logger().info('Receiving video frame')
-        # As pointed in comments below modify the following to use bgr encoding
-        # current_frame = self.br.imgmsg_to_cv2(data, desired_encoding='bgr8')
+
 
         results = self.model(rgb_frame) # running YOLO model for instance segmentation
+
+        if results != None:
+            # For each detected object, get bounding box coordinates and calculate approximate "center".
+            detections = []
+            for box in results[0].boxes:
+                x1, y1, x2, y2 = box.xyxy[0]
+                box_cx = int((x1 + x2) // 2)
+                box_cy = int((y1 + y2) // 2)
+                self.get_logger().info(f"CENTER: ({box_cy}, {box_cx})")
+                detections.append({
+                    'bbox': (x1, y1, x2, y2),
+                    'center': (box_cx, box_cy),
+                    'class': box.cls[0],
+                    'confidence': box.conf[0]
+                })
+            
+            # now use specific coordinate to get approximate depth value to object.
+            for detection in detections:
+                box_cx, box_cy = detection['center']
+                Z = depth_frame[box_cy][box_cx]
+                detection['depth'] = Z
+
+            # Given depth values, pixel coordinates (u, v), and camera instrinsics, calculate (X, Y, Z)
+            # Assuming camera intrinsics like focal length (fx, fy) and principal point (cx, cy) are known. 
+            fx, fy, cx, cy = 394.6, 394.6, 320.0, 240.0  # Hardcoded intrinsics, update with actual values
+            
+            for detection in detections:
+                box_cx, box_cy = detection['center']
+                Z = detection['depth']
+                
+                # Pinhole camera model: X = (u - cx) * Z / fx, Y = (v - cy) * Z / fy, Z = Z
+                X = (box_cx - cx) * Z / fx
+                Y = (box_cy - cy) * Z / fy
+                
+                detection['3d_position'] = (X, Y, Z) # this is relative to the base_link!
+            
+        self.get_logger().info(f"Detections: {detection}")
         cv_utils.show_image(results[0].plot())
 
-        # given bounding box coordinates, calculate center of the bounding box and use it to get the depth value from the depth image.
 
         # storing results in a JSON file. Results consist of instance of a category and the estimated
         # position of the object. The estimated position is calculated using the depth image and the.
